@@ -44,7 +44,11 @@ namespace ChallengeBackendCSharp.Controllers
                 {
                     var filteredList = await _db.Characters!.Where(filt => (filt.Name == queryDto.Name || queryDto.Name == null) && (filt.Age == queryDto.Age || queryDto.Age == null)).ToListAsync();
 
-                    return Ok(filteredList is null | filteredList!.Count == 0 ? throw new Exception("No hay registros en la base de datos de personajes que coincidan con los parámetros recibidos.") : filteredList);
+                    // Prueba
+                    var filteredListDto = _mapper.Map<IList<Character>, IList<CharacterWithIdDto>>(filteredList);
+
+                    //return Ok(filteredList is null | filteredList!.Count == 0 ? throw new Exception("No hay registros en la base de datos de personajes que coincidan con los parámetros recibidos.") : filteredList);
+                    return Ok(filteredListDto is null | !filteredListDto!.Any() ? throw new Exception("No hay registros en la base de datos de personajes que coincidan con los parámetros recibidos.") : filteredListDto);
                 }
                 else
                 {
