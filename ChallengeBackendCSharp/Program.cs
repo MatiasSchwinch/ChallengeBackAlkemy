@@ -9,7 +9,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();//.AddJsonOptions(opt => { opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve; });
+builder.Services.AddControllers();
 builder.Services.AddDbContext<DatabaseConnector>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Implementación del servicio Identity.
@@ -38,7 +38,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
         options.SaveToken = true;
-        /*options.RequireHttpsMetadata = false;*/
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuer = true,
@@ -46,7 +45,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["JSONWebToken:Issuer"],
             ValidAudience = builder.Configuration["JSONWebToken:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JSONWebToken:Key"])),
-            RequireExpirationTime = true
+            RequireExpirationTime = true,
+            ClockSkew = TimeSpan.Zero
         };
     });
 
@@ -64,6 +64,19 @@ builder.Services.AddEndpointsApiExplorer();
 // Configuración para que Swagger sea compatible con la autenticación JWT.
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Disney Web API",
+        Description = "Esto es un challenge realizado para la plataforma Alkemy (https://www.alkemy.org).",
+        Contact = new OpenApiContact
+        {
+            Name = "Matias Schwinch",
+            Email = "matias.schwinch@outlook.com",
+            Url = new Uri("https://github.com/MatiasSchwinch")
+        },
+        Version = "v1"
+    });
+
     options.AddSecurityDefinition("jwt_auth", new OpenApiSecurityScheme
     {
         Name = "Bearer",

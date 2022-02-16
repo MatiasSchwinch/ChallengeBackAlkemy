@@ -5,6 +5,10 @@
         public string? Image { get; set; }
         public string? Name { get; set; }
     }
+    public class GenreWithIdDto : GenreDto
+    {
+        public int GenreID { get; set; }
+    }
     public class GenreWithAudiovisualWorksDto : GenreDto
     {
         public IList<string>? AudiovisualWorks { get; set; }

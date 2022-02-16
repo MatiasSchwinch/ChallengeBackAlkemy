@@ -1,10 +1,13 @@
-﻿namespace ChallengeBackendCSharp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ChallengeBackendCSharp.Models
 {
     public class AudiovisualWorkDto
     {
         public string? Image { get; set; }
         public string? Title { get; set; }
         public DateTime ReleaseDate { get; set; }
+        [Range(1.0, 5.0)]
         public float Rating { get; set; }
     }
 

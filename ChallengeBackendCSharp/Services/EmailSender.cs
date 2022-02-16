@@ -7,10 +7,12 @@ namespace ChallengeBackendCSharp.Services
     public class EmailSender
     {
         public readonly IConfiguration _config;
+        public readonly SendGridClient _client;
 
         public EmailSender(IConfiguration config)
         {
             _config = config;
+            _client = new SendGridClient(_config["SendGrid:API_KEY"]);
         }
 
         /// <summary>
@@ -20,7 +22,7 @@ namespace ChallengeBackendCSharp.Services
         /// <returns>True: si el envió fue completado correctamente, False: si no se pudo enviar el email.</returns>
         public async Task<bool> SendWelcomeEmail(RegisterModel registerUser)
         {
-            var client = new SendGridClient(_config["SendGrid:API_KEY"]);
+            //var client = new SendGridClient(_config["SendGrid:API_KEY"]);
             
             var from = new EmailAddress("mt2.shopping.box@outlook.com", "Disney Web API");
             var subject = "Bienvenido a Disney Web API!, su registro se completo correctamente.";
@@ -32,7 +34,9 @@ namespace ChallengeBackendCSharp.Services
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 
-            var response = await client.SendEmailAsync(msg);
+            //var response = await client.SendEmailAsync(msg);
+
+            var response = await _client.SendEmailAsync(msg);
 
             return response.IsSuccessStatusCode;
         }

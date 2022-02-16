@@ -12,7 +12,6 @@
     public class CharacterWithIdDto : CharacterDto
     {
         public int CharacterID { get; set; }
-        //public IList<AudiovisualWorkWithIdDto>? AudiovisualWorks { get; set; }
     }
 
     public class CharacterWithMoviesDto : CharacterDto

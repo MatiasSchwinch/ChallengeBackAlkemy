@@ -16,7 +16,7 @@ namespace ChallengeBackendCSharp.Controllers
         private readonly IMapper _mapper;
         private readonly DatabaseConnector _db;
 
-        public CharacterController(ILogger<CharacterController> logger, IMapper mapper, DatabaseConnector db)
+        public CharacterController(IMapper mapper, DatabaseConnector db)
         {
             _mapper = mapper;
             _db = db;
@@ -108,32 +108,6 @@ namespace ChallengeBackendCSharp.Controllers
         }
 
         /// <summary>
-        ///     Elimina un personaje de la base de datos mediante su Id.
-        /// </summary>
-        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
-        /// <returns>200: Si la entidad es eliminada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteCharacter(int id)
-        {
-            try
-            {
-                var character = await _db.Characters!.FindAsync(id);
-
-                if (character is null) { throw new Exception("No se encontró ningún registro con ese id."); };
-
-                _db.Characters.Remove(character);
-
-                await _db.SaveChangesAsync();
-
-                return Ok(new { Message = string.Format("El personaje '{0}' fue eliminado correctamente de la base de datos.", character.Name) });
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new { ex.Message });
-            }
-        }
-
-        /// <summary>
         ///     Actualiza un personaje ya existente en la base de datos.
         /// </summary>
         /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
@@ -175,13 +149,42 @@ namespace ChallengeBackendCSharp.Controllers
 
                 var audiovisualWork = await _db.AudiovisualWorks!.FindAsync(idMovie);
 
-                if (character is null) { throw new Exception("No se encontró ningún registro con ese id."); };
+                if (character is null || audiovisualWork is null) { throw new Exception(string.Format("No se encontró ningún registro en la tabla {0}{1}{2} con el id señalado.",
+                    (character is null) ? "Character" : "",
+                    (character is null && audiovisualWork is null) ? " y " : "",
+                    (audiovisualWork is null) ? "AudiovisualWork" : "")); };
 
                 character.CharacterAudiovisualWorks!.Add(new CharacterAudiovisualWork { AudiovisualWork = audiovisualWork });
 
                 await _db.SaveChangesAsync();
 
                 return Ok(new { Message = string.Format("El personaje '{0}' fue actualizado agregando una nueva obra audiovisual correctamente.", character.Name) });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+        }
+
+        /// <summary>
+        ///     Elimina un personaje de la base de datos mediante su Id.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
+        /// <returns>200: Si la entidad es eliminada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteCharacter(int id)
+        {
+            try
+            {
+                var character = await _db.Characters!.FindAsync(id);
+
+                if (character is null) { throw new Exception("No se encontró ningún registro con ese id."); };
+
+                _db.Characters.Remove(character);
+
+                await _db.SaveChangesAsync();
+
+                return Ok(new { Message = string.Format("El personaje '{0}' fue eliminado correctamente de la base de datos.", character.Name) });
             }
             catch (Exception ex)
             {

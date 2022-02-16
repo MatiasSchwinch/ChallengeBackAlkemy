@@ -17,6 +17,7 @@ namespace ChallengeBackendCSharp.Services
         // Modelado de la Base de datos.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Importante pasar el base para que también se modelen las tablas necesarias para el uso de Identity.
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Character>(entity =>

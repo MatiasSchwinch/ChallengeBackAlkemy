@@ -23,6 +23,8 @@ namespace ChallengeBackendCSharp.Controllers
             _db = db;
         }
 
+        // CRUD
+
         /// <summary>
         ///     Obtiene todas las obras audiovisuales de la base de datos, y también permite filtrar mediante parámetros query.
         /// </summary>
@@ -149,6 +151,38 @@ namespace ChallengeBackendCSharp.Controllers
                 await _db.SaveChangesAsync();
 
                 return Ok(new { Message = string.Format("La obra '{0}' fue actualizado correctamente.", audiovisualWorkWithIdDto.Title) });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+        }
+
+        /// <summary>
+        ///      Asocia películas ya existentes a un genero ya existente.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al identificador de la entidad audiovisualwork en la base de datos.</param>
+        /// <param name="idMovie">Numero entero perteneciente al identificador de la entidad genre en la base de datos.</param>
+        /// <returns></returns>
+        [HttpPut("{id:int}/genres/{idGenre:int}")]
+        public async Task<ActionResult> PutAudiovisualWorksGenre(int id, int idGenre)
+        {
+            try
+            {
+                var audiovisualwork = await _db.AudiovisualWorks!.Include(x => x.GenreAudiovisualWorks).FirstOrDefaultAsync(frs => frs.AudiovisualWorkID == id);
+
+                var genre = await _db.Genres!.FindAsync(idGenre);
+
+                if (audiovisualwork is null || genre is null) { throw new Exception(string.Format("No se encontró ningún registro en la tabla {0}{1}{2} con el id señalado.", 
+                    (audiovisualwork is null) ? "Audiovisualworks" : "",
+                    (audiovisualwork is null && genre is null) ? " y " : "",
+                    (genre is null) ? "Genres" : "" )); };
+
+                audiovisualwork.GenreAudiovisualWorks!.Add(new GenreAudiovisualWork { GenreID = genre.GenreID, Genre = genre });
+
+                await _db.SaveChangesAsync();
+
+                return Ok(new { Message = string.Format("La obra '{0}' fue actualizado correctamente asociando el genero '{1}' a ella.", audiovisualwork.Title, genre.Name) });
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChallengeBackendCSharp.Migrations
 {
     [DbContext(typeof(DatabaseConnector))]
-    [Migration("20220212233954_CreateDatabaseSchema")]
+    [Migration("20220216163603_CreateDatabaseSchema")]
     partial class CreateDatabaseSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

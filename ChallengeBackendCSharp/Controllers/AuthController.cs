@@ -1,6 +1,5 @@
 ﻿using ChallengeBackendCSharp.Models;
 using ChallengeBackendCSharp.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -72,15 +71,14 @@ namespace ChallengeBackendCSharp.Controllers
 
                 var authClaims = new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, login.Username),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new Claim(JwtRegisteredClaimNames.Sub, login.Username)
                 };
 
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JSONWebToken:Issuer"],
                     audience: _configuration["JSONWebToken:Audience"],
                     claims: authClaims,
-                    expires: DateTime.Now.AddHours(24),
+                    expires: DateTime.UtcNow.AddHours(24),
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JSONWebToken:Key"])), SecurityAlgorithms.HmacSha256)
                     );
 
