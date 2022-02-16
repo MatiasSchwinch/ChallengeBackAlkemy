@@ -23,7 +23,11 @@ namespace ChallengeBackendCSharp.Controllers
             _db = db;
         }
 
-        // Obtiene todas las obras audiovisuales de la base de datos, y también permite filtrar mediante parámetros query.
+        /// <summary>
+        ///     Obtiene todas las obras audiovisuales de la base de datos, y también permite filtrar mediante parámetros query.
+        /// </summary>
+        /// <param name="queryDto">Se pueden pasar como parámetros query "name", "genre" y "order".</param>
+        /// <returns>Una lista con todos las obras audiovisuales de la base de datos, o los filtrados por los parámetros query.</returns>
         [HttpGet]
         public async Task<ActionResult> GetAllAudiovisualWorks([FromQuery] AudiovisualWorkQueryDto queryDto)
         {
@@ -74,7 +78,11 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Obtiene una obra audiovisual mediante su ID.
+        /// <summary>
+        ///     Obtiene una obra audiovisual mediante su ID.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al identificador de la entidad audiovisualwork en la base de datos.</param>
+        /// <returns>200: Si el id se encuentra registrado con una entidad, 404: si se produce algún tipo de excepción.</returns>
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetAudiovisualWorksById(int id)
         {
@@ -98,7 +106,11 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Añadir una nueva obra audiovisual.
+        /// <summary>
+        ///      Añade una nueva obra audiovisual a la base de datos.
+        /// </summary>
+        /// <param name="audiovisualWorkDto">Objeto audiovisualwork que cuenta con todas las propiedades que pertenecen a la entidad.</param>
+        /// <returns>200: Si la entidad es registrada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
         [HttpPost]
         public async Task<ActionResult> PostAudiovisualWorks([FromBody] AudiovisualWorkDto audiovisualWorkDto)
         {
@@ -117,7 +129,38 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Elimina una obra audiovisual existente.
+        /// <summary>
+        ///     Actualiza una obra audiovisual ya existente en la base de datos.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
+        /// <param name="character">Objeto audiovisualwork que cuenta con todas las propiedades que pertenecen a la entidad.</param>
+        /// <returns>200: Si la entidad es actualizada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> PutAudiovisualWorks(int id, [FromBody]AudiovisualWorkWithIdDto audiovisualWorkWithIdDto)
+        {
+            try
+            {
+                if (audiovisualWorkWithIdDto.AudiovisualWorkID != id) { throw new Exception("El Id de la url y el cuerpo de la solicitud no coinciden."); };
+
+                var updatedAudiovisual = _mapper.Map<AudiovisualWork>(audiovisualWorkWithIdDto);
+
+                _db.Entry(updatedAudiovisual).State = EntityState.Modified;
+
+                await _db.SaveChangesAsync();
+
+                return Ok(new { Message = string.Format("La obra '{0}' fue actualizado correctamente.", audiovisualWorkWithIdDto.Title) });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { ex.Message });
+            }
+        }
+
+        /// <summary>
+        ///      Elimina una obra audiovisual de la base de datos mediante su Id.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al identificador de la entidad en la base de datos.</param>
+        /// <returns>200: Si la entidad es eliminada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteAudiovisualWork(int id)
         {

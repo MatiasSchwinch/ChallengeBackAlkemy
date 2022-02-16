@@ -84,6 +84,7 @@ namespace ChallengeBackendCSharp.Controllers
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JSONWebToken:Key"])), SecurityAlgorithms.HmacSha256)
                     );
 
+                // Retorna el token junto a su fecha de vencimiento.
                 return Ok(new { Message = "El token se creo exitosamente.", Token = new JwtSecurityTokenHandler().WriteToken(token), Expiration = token.ValidTo.ToString("dd-MM-yy HH:mm") });
             }
             catch (Exception ex)

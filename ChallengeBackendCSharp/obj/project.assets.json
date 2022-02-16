@@ -4906,11 +4906,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackend\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
+      "projectUniqueName": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackendAlkemy\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
       "projectName": "ChallengeBackendCSharp",
-      "projectPath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackend\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
+      "projectPath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackendAlkemy\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
       "packagesPath": "C:\\Users\\matia\\.nuget\\packages\\",
-      "outputPath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackend\\ChallengeBackendCSharp\\obj\\",
+      "outputPath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackendAlkemy\\ChallengeBackendCSharp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

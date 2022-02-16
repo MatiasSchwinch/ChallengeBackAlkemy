@@ -13,26 +13,22 @@ namespace ChallengeBackendCSharp.Controllers
     [ApiController]
     public class CharacterController : ControllerBase
     {
-        private readonly ILogger<CharacterController> _logger;
         private readonly IMapper _mapper;
         private readonly DatabaseConnector _db;
-        private readonly Dictionary<string, string> _validQueryParameters = new Dictionary<string, string>()
-        {
-            { "age", "Age" },
-            { "name", "Name" },
-            { "movies", "AudiovisualWorks" }
-        };
 
         public CharacterController(ILogger<CharacterController> logger, IMapper mapper, DatabaseConnector db)
         {
-            _logger = logger;
             _mapper = mapper;
             _db = db;
         }
 
         // CRUD
 
-        // Obtener todos los personajes de la base de datos, y también permite filtrar mediante parámetros query.
+        /// <summary>
+        ///     Obtener todos los personajes de la base de datos, y también permite filtrar mediante parámetros query.
+        /// </summary>
+        /// <param name="queryDto">Se pueden pasar como parámetros query "name", "age" y "idMovie", los primeros 2 pueden ser enviados en conjunto.</param>
+        /// <returns>Una lista con todos los personajes de la base de datos, o los filtrados por los parámetros query.</returns>
         [HttpGet]
         public async Task<ActionResult> GetAllCharacters([FromQuery] CharacterQueryDto queryDto)
         {
@@ -64,7 +60,11 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Obtiene un personaje mediante su ID.
+        /// <summary>
+        ///     Obtiene un personaje mediante su ID.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
+        /// <returns>200: Si el id se encuentra registrado con una entidad, 404: si se produce algún tipo de excepción.</returns>
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetCharacterById(int id)
         {
@@ -84,7 +84,11 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Añadir nuevo personaje.
+        /// <summary>
+        ///     Añade un nuevo personaje a la base de datos.
+        /// </summary>
+        /// <param name="character">Objeto personaje que cuenta con todas las propiedades que pertenecen a la entidad.</param>
+        /// <returns>200: Si la entidad es registrada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
         [HttpPost]
         public async Task<ActionResult> AddCharacter([FromBody] CharacterDto character)
         {
@@ -103,7 +107,11 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Eliminar personaje existente.
+        /// <summary>
+        ///     Elimina un personaje de la base de datos mediante su Id.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
+        /// <returns>200: Si la entidad es eliminada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteCharacter(int id)
         {
@@ -125,7 +133,12 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Actualizar personaje existente.
+        /// <summary>
+        ///     Actualiza un personaje ya existente en la base de datos.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al Identificador de la entidad en la base de datos.</param>
+        /// <param name="character">Objeto personaje que cuenta con todas las propiedades que pertenecen a la entidad.</param>
+        /// <returns>200: Si la entidad es actualizada correctamente en la base de datos, 404: si se produce algún tipo de excepción.</returns>
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateCharacter(int id, [FromBody] CharacterWithIdDto character)
         {
@@ -147,7 +160,12 @@ namespace ChallengeBackendCSharp.Controllers
             }
         }
 
-        // Asocia películas a un personaje ya existente.
+        /// <summary>
+        ///      Asocia películas ya existentes a un personaje ya existente.
+        /// </summary>
+        /// <param name="id">Numero entero perteneciente al identificador de la entidad character en la base de datos.</param>
+        /// <param name="idMovie">Numero entero perteneciente al identificador de la entidad audiovisualwork en la base de datos.</param>
+        /// <returns></returns>
         [HttpPut("{id:int}/audiovisualworks/{idMovie:int}")]
         public async Task<ActionResult> UpdateCharacterAudiovisualWorks(int id, int idMovie)
         {

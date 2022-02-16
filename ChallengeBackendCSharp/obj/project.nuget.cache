@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BdLrsy1+f2he7zOUhr67eD5mZL4y1V/deNt8I3FcIGA11pbSGmuck1Lu0C0CBdJ317DkBenbNcAaSEtBhQscPQ==",
+  "dgSpecHash": "E//B4svs//qvRg//NfTTGO2GzgLaNUxFZgQGj0suVWIZeKPEvRhkSEd0wSc7MMwyY033knXG0g1utKkW8/PYhw==",
   "success": true,
-  "projectFilePath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackend\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
+  "projectFilePath": "E:\\Users\\matia\\Documents\\GitHub\\ChallengeBackendAlkemy\\ChallengeBackendCSharp\\ChallengeBackendCSharp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\matia\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\matia\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

@@ -23,6 +23,8 @@ namespace ChallengeBackendCSharp.Helpers
 
             CreateMap<AudiovisualWorkDto, AudiovisualWork>().ReverseMap();
 
+            CreateMap<AudiovisualWorkWithIdDto, AudiovisualWork>().ReverseMap();
+
             CreateMap<AudiovisualWork, AudiovisualWorkWithCharactersDto>()
                 .ForMember(dest => dest.Characters, obt => obt.MapFrom(sel => sel.CharacterAudiovisualWorks!.Select(x => x.Character!.Name)));
 
