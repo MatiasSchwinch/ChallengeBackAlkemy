@@ -15,7 +15,7 @@
 ### Character
 | Método | Referencia     | Propósito                                      |
 |--------|----------------|------------------------------------------------|
-| [GET] | /characters | **Devuelve todos los personajes registrados en la base de datos.** |
+| [GET] | /characters | **Devuelve todos los personajes registrados en la base de datos (compatible con los siguientes parametros query: name, age y audiovisualworkId).** |
 | [GET] | /characters/**id** | **Devuelve el personaje que corresponda con el Id recibido.** |
 | [POST] | /characters | **Agrega un nuevo personaje a la base de datos.** |
 | [PUT] | /characters/**id** | **Edita un personaje existente en la base de datos.** |
@@ -25,7 +25,7 @@
 ### AudiovisualWork
 | Método | Referencia     | Propósito                                      |
 |--------|----------------|------------------------------------------------|
-| [GET] | /movies | **Devuelve todas las obras audiovisuales registradas en la base de datos.** |
+| [GET] | /movies | **Devuelve todas las obras audiovisuales registradas en la base de datos  (compatible con los siguientes parametros query: name, genreId y order [ASC/DESC]).**|
 | [GET] | /movies/**id** | **Devuelve la obra audiovisual que corresponda con el Id recibido.** |
 | [POST] | /movies | **Agrega una nueva obra audiovisual a la base de datos.** |
 | [PUT] | /movies/**id** | **Edita una obra audiovisual existente en la base de datos.** |
